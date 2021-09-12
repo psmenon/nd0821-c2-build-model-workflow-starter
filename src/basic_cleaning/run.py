@@ -33,6 +33,10 @@ def go(args):
     
     # Convert last_review to datetime
     df['last_review'] = pd.to_datetime(df['last_review'])
+    
+    # drop rows in the dataset that are not in the proper geolocation.
+    idx = df['longitude'].between(-74.25, -73.50) & df['latitude'].between(40.5, 41.2)
+    df = df[idx].copy()
 
     df.to_csv("clean_sample.csv", index=False)
     logger.info('Processed data stored to clean_sample.csv')
